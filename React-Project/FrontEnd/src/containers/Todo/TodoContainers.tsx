@@ -1,9 +1,9 @@
 // containers/TodoContainer.tsx
 
 import React, { useState } from 'react';
-import TodoInput from '../../components/Todo/TodoInput';
-import TodoList from '../../components/Todo/TodoList';
-import { TodoType } from '../../types/TodoType';
+import TodoInput from '@src/components/Todo/TodoInput';
+import TodoList from '@src/components/Todo/TodoList';
+import { TodoType } from '@src/types/TodoType';
 import { v4 as uuidv4 } from 'uuid';
 
 const TodoContainer: React.FC = () => {

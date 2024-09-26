@@ -1,4 +1,13 @@
 {
+  "compilerOptions": {
+    "baseUrl": "./",  // 프로젝트 루트를 기준으로 설정
+    "paths": {
+      "@src/*": ["./src/*"]  // '@src/' 접두사를 사용해 'src' 디렉토리로 매핑
+    }
+  },
+  "include": [
+    "src"  // 'src' 디렉토리의 모든 파일을 포함
+  ],
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

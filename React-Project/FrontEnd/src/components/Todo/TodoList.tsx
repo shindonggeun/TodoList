@@ -1,8 +1,8 @@
 // components/Todo/TodoList.tsx
 
 import React from 'react';
-import TodoItem from './TodoItem';
-import { TodoType } from '../../types/TodoType'; // TodoType 불러오기
+import TodoItem from '@src/components/Todo/TodoItem';
+import { TodoType } from '@src/types/TodoType'; // TodoType 불러오기
 
 type TodoListProps = {
   todos: TodoType[];         // 할 일 목록 배열

@@ -21,7 +21,7 @@ const TodoContainer: React.FC = () => {
   };
 
   // 완료 상태 토글 함수
-  const handleToggleTodo = (id: number) => {
+  const handleToggleTodo = (id: string) => {
     setTodos(
       todos.map(todo =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -30,7 +30,7 @@ const TodoContainer: React.FC = () => {
   };
 
   // 할 일 삭제 함수
-  const handleDeleteTodo = (id: number) => {
+  const handleDeleteTodo = (id: string) => {
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
@@ -38,6 +38,13 @@ const TodoContainer: React.FC = () => {
   const handleRemoveChecked = () => {
     // 완료되지 않은 할 일만 남기고 필터링
     setTodos(todos.filter(todo => !todo.completed));
+  };
+
+  // 할 일 수정 함수
+  const handleUpdateTodo = (id: string, newTask: string) => {
+    setTodos(
+      todos.map(todo => (todo.id === id ? { ...todo, task: newTask } : todo))
+    );
   };
 
   // 완료된 할 일 개수 계산
@@ -59,6 +66,7 @@ const TodoContainer: React.FC = () => {
         todos={todos}
         onToggle={handleToggleTodo}
         onDelete={handleDeleteTodo}
+        onUpdate={handleUpdateTodo}
       />
 
       {/* 완료된 할 일 개수 및 진행도 */}

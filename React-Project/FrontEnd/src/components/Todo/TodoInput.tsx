@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useTodoStore } from '@src/stores/TodoStore';
+import { IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add'; // Add 아이콘 import
 
 // 할 일 추가 기능을 담당하는 컴포넌트
 const TodoInput = () => {
@@ -23,7 +25,7 @@ const TodoInput = () => {
   // 키보드에서 'Enter' 키를 눌렀을 때 할 일을 추가하는 함수
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleAdd();
+      handleAdd(); // 'Enter'키 누른 경우 할 일 추가
     }
   };
 
@@ -32,14 +34,15 @@ const TodoInput = () => {
       {/* 사용자가 할 일을 입력하는 입력 필드 */}
       <input
         className="border p-2 flex-1"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
+        value={task} // 입력된 할 일 필드값
+        onChange={(e) => setTask(e.target.value)} // 입력값이 변경된 경우 상태 업데이트
         onKeyDown={handleKeyDown}
         placeholder="해야할 일을 추가해주세요"
       />
-      <button className="ml-2 bg-blue-500 text-white p-2" onClick={handleAdd}>
-        Add
-      </button>
+      {/* MUI의 IconButton을 사용하여 Add 버튼 대체 */}
+      <IconButton color="primary" onClick={handleAdd}>
+        <AddIcon /> {/* Add 아이콘 적용 */}
+      </IconButton>
     </div>
   );
 };

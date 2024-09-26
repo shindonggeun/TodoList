@@ -3,6 +3,8 @@
 import TodoInput from '@src/components/Todo/TodoInput';
 import TodoList from '@src/components/Todo/TodoList';
 import { useTodoStore } from '@src/stores/TodoStore';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const TodoContainer = () => {
   const { todos, removeCheckedTodos } = useTodoStore();
@@ -25,16 +27,10 @@ const TodoContainer = () => {
       <div className="progress-section mt-4">
         <p>{completedTodosCount} of {totalTodosCount} tasks done</p>
 
-        <div className="progress-bar-container" style={{ background: '#e0e0e0', width: '100%', height: '20px', borderRadius: '10px', overflow: 'hidden' }}>
-          <div
-            className="progress-bar"
-            style={{
-              width: `${completionRate}%`,
-              background: '#4caf50',
-              height: '100%',
-            }}
-          />
-        </div>
+        {/* MUI의 LinearProgress 컴포넌트로 프로그레시브 바 구현 */}
+        <Box sx={{ width: '100%', marginTop: 2 }}>
+          <LinearProgress variant="determinate" value={completionRate} />
+        </Box>
       </div>
 
       {/* 완료된 항목 삭제 버튼 */}

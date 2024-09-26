@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 import { useTodoStore } from '@src/stores/TodoStore';
+import { IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit'; 
+import SaveIcon from '@mui/icons-material/Save'; 
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 type TodoItemProps = {
   task: string;
@@ -38,18 +42,23 @@ const TodoItem = ({ task, completed, id }: TodoItemProps) => {
       </div>
 
       <div>
+        {/* 저장 및 수정 관련 버튼 부분*/}
         {isUpdating ? (
-          <button className="text-green-500" onClick={handleSave}>
-            저장
-          </button>
+          // 저장 버튼: MUI의 Save 아이콘 버튼
+          <IconButton color="primary" onClick={handleSave}>
+            <SaveIcon />
+          </IconButton>
         ) : (
-          <button className="text-blue-500" onClick={() => setIsUpdating(true)}>
-            수정
-          </button>
+          // 수정 버튼: MUI의 Edit 아이콘 버튼
+          <IconButton color="primary" onClick={() => setIsUpdating(true)}>
+            <EditIcon />
+          </IconButton>
         )}
-        <button className="text-red-500 ml-2" onClick={() => deleteTodo(id)}>
-          Delete
-        </button>
+
+        {/* 삭제 버튼: MUI의 Delete 아이콘 버튼 */}
+        <IconButton color="primary" onClick={() => deleteTodo(id)}>
+          <DeleteForeverIcon />
+        </IconButton>
       </div>
     </div>
   );

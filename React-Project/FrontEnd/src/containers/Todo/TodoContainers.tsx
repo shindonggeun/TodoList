@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import TodoInput from '../../components/Todo/TodoInput';
 import TodoList from '../../components/Todo/TodoList';
 import { TodoType } from '../../types/TodoType';
+import { v4 as uuidv4 } from 'uuid';
 
 const TodoContainer: React.FC = () => {
   // 할 일 상태 관리
@@ -12,7 +13,7 @@ const TodoContainer: React.FC = () => {
   // 새로운 할 일 추가 함수
   const handleAddTodo = (task: string) => {
     const newTodo: TodoType = {
-      id: Date.now(),
+      id: uuidv4(),     // UUID를 이용하여 고유 ID 생성
       task,
       completed: false,
     };

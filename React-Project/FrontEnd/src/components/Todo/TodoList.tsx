@@ -4,7 +4,7 @@ import TodoItem from '@src/components/Todo/TodoItem';
 import { useTodoStore } from '@src/stores/TodoStore';
 
 const TodoList = () => {
-  const { todos } = useTodoStore();
+  const { todos } = useTodoStore(); // zustand store에서 할 일 목록 가져옴 (저장된 변수)
 
   return (
     <div>
@@ -13,10 +13,10 @@ const TodoList = () => {
       ) : (
         todos.map((todo) => (
           <TodoItem
-            key={todo.id}
-            task={todo.task}
-            completed={todo.completed}
-            id={todo.id}
+            key={todo.id} // 할 일 아이템에 고유 key값 (UUID) 저장
+            task={todo.task} // 할 일 내용
+            completed={todo.completed} // 완료 여부
+            id={todo.id} // 할 일 고유 ID
           />
         ))
       )}

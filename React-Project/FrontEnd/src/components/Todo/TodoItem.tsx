@@ -37,7 +37,7 @@ const TodoItem = ({ task, completed, id }: TodoItemProps) => {
           />
         ) : (
           <span className={completed ? 'line-through ml-2' : 'ml-2'}>
-            {task} // 완료된 경우 텍스트에 줄 긋기 적용
+            {task} {/* 완료된 경우 텍스트에 줄 긋기 적용 */}
           </span>
         )}
       </div>

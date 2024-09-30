@@ -5,6 +5,7 @@ import TodoList from '@src/components/Todo/TodoList';
 import { useTodoStore } from '@src/stores/TodoStore';
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { styled } from '@mui/material/styles';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 20, // 프로그레스 바의 높이를 20px로 설정

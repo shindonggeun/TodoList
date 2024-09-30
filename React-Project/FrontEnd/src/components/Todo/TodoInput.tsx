@@ -27,10 +27,10 @@ const TodoInput = () => {
   };
 
   return (
-    <div className="flex items-center">
+    <div className="p-4 rounded-lg shadow-md flex items-center">
       {/* 사용자가 할 일을 입력하는 입력 필드 */}
       <input
-        className="border p-2 flex-1"
+        className="border p-2 flex-1 mr-2 rounded-lg"
         value={task} // 입력된 할 일 필드값
         onChange={(e) => setTask(e.target.value)} // 입력값이 변경된 경우 상태 업데이트
         onKeyDown={handleKeyDown}

@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useTodoStore } from '@src/stores/TodoStore';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; 
-import SaveIcon from '@mui/icons-material/Save'; 
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import SaveIcon from '@mui/icons-material/Save';
+import ClearIcon from '@mui/icons-material/Clear';
 
 type TodoItemProps = {
   task: string; // 할 일 내용
@@ -25,7 +25,7 @@ const TodoItem = ({ task, completed, id }: TodoItemProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="bg-blue-50 flex items-center justify-between">
       <div>
         <input type="checkbox" checked={completed} onChange={() => toggleTodo(id)} />
         {isUpdating ? (
@@ -58,7 +58,7 @@ const TodoItem = ({ task, completed, id }: TodoItemProps) => {
 
         {/* 삭제 버튼: MUI의 Delete 아이콘 버튼 */}
         <IconButton color="primary" onClick={() => deleteTodo(id)}>
-          <DeleteForeverIcon />
+          <ClearIcon />
         </IconButton>
       </div>
     </div>

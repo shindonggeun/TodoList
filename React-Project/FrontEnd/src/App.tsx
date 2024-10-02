@@ -1,4 +1,4 @@
-import TodoPage from './pages/TodoPage';
+import TodoPage from '@src/pages/TodoPage';
 
 function App() {
   return (

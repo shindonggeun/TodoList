@@ -2,16 +2,11 @@
 
 import { useState } from 'react';
 import { useTodoStore } from '@src/stores/TodoStore';
+import { TodoItemProps } from '@src/types/TodoType';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; 
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
-
-type TodoItemProps = {
-  task: string; // 할 일 내용
-  completed: boolean; // 완료 여부
-  id: string; // 할 일 고유 ID
-};
 
 const TodoItem = ({ task, completed, id }: TodoItemProps) => {
   const { toggleTodo, deleteTodo, updateTodo } = useTodoStore(); // zustand에서 할 일 상태 변경 메서드, 할 일 삭제 메서드, 할 일 내용 수정 메서드 가져옴

@@ -8,7 +8,7 @@ import AddIcon from '@mui/icons-material/Add'; // Add 아이콘 import
 // 할 일 추가 기능을 담당하는 컴포넌트
 const TodoInput = () => {
   const { addTodo } = useTodoStore(); // zustand store에서 할 일을 추가하는 함수 가져옴
-  const [task, setTask] = useState(''); // 사용자가 입력한 할 일 내용을 관리하는 로컬 상태
+  const [task, setTask] = useState<string>(''); // 사용자가 입력한 할 일 내용을 관리하는 로컬 상태
 
   // 할 일을 추가하는 함수
   const handleAdd = () => {

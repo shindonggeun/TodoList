@@ -2,7 +2,7 @@
 
 import { Box, LinearProgress, linearProgressClasses } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ProgressBarProps } from '@src/types/TodoType'; // TodoType에 정의된 ProgressBarProps를 import
+import { ProgressBarProps } from '@src/types/TodoType';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 20, // 프로그레스 바의 높이를 20px로 설정

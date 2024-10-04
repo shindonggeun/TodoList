@@ -4,7 +4,21 @@ import { Box, LinearProgress, linearProgressClasses } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ProgressBarProps } from '@src/types/TodoType';
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+const getProgressColor = (completionRate: number) => {
+  if (completionRate <= 50) {
+    // 0%에서 50%까지 빨간색 -> 노란색으로
+    const red = 255;
+    const green = Math.floor((255 * completionRate) / 50);
+    return `rgb(${red}, ${green}, 0)`;
+  } else {
+    // 50%에서 100%까지 노란색 -> 초록색으로
+    const red = Math.floor(255 - (255 * (completionRate - 50)) / 50);
+    const green = 255;
+    return `rgb(${red}, ${green}, 0)`;
+  }
+}
+
+const BorderLinearProgress = styled(LinearProgress)<{ completionRate: number }>(({ theme, completionRate }) => ({
   height: 20, // 프로그레스 바의 높이를 20px로 설정
   borderRadius: 5, // 둥글게 처리
   [`&.${linearProgressClasses.colorPrimary}`]: {
@@ -12,7 +26,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5, // 진행 막대 둥글게 처리
-    backgroundColor: '#1a90ff', // 진행 부분의 색상 설정
+    backgroundColor: getProgressColor(completionRate), // 퍼센티지에 따라 색상 적용
   },
 }));
 
@@ -26,6 +40,7 @@ export default function ProgressBar({ completedTodosCount, totalTodosCount }: Pr
         <BorderLinearProgress
           variant="determinate" // 프로그레스 바의 진행률을 제어
           value={completionRate} // 계산된 완료 비율을 설정
+          completionRate={completionRate} // 동적 색상을 위한 completionRate 전달
         />
       </Box>
 

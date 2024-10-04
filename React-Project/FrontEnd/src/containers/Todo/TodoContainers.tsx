@@ -5,7 +5,7 @@ import TodoList from '@src/components/Todo/TodoList';
 import ProgressBar from '@src/components/Todo/ProgressBar';
 import { useTodoStore } from '@src/stores/TodoStore';
 
-const TodoContainer = () => {
+export default function TodoContainer() {
   const { todos, removeCheckedTodos } = useTodoStore(); // zustand에서 할 일 상태 및 완료된 할 일 리스트 삭제 메서드 가져오기
 
   const completedTodosCount = todos.filter((todo) => todo.completed).length; // 완료된 할 일 개수 계산
@@ -44,4 +44,3 @@ const TodoContainer = () => {
   );
 };
 
-export default TodoContainer;

@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const TodoItem = ({ task, completed, id }: TodoItemProps) => {
+export default function TodoItem({ task, completed, id }: TodoItemProps) {
   const { toggleTodo, deleteTodo, updateTodo } = useTodoStore(); // zustand에서 할 일 상태 변경 메서드, 할 일 삭제 메서드, 할 일 내용 수정 메서드 가져옴
   const [isUpdating, setIsUpdating] = useState(false); // 수정 모드 여부 상태
   const [newTask, setNewTask] = useState(task); // 수정 중인 할 일 내용을 로컬 상태로 관리
@@ -59,5 +59,3 @@ const TodoItem = ({ task, completed, id }: TodoItemProps) => {
     </div>
   );
 };
-
-export default TodoItem;

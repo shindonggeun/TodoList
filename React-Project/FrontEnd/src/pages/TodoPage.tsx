@@ -3,7 +3,7 @@
 import TodoContainer from "@src/containers/Todo/TodoContainers";
 
 // TodoPage는 TodoContainer를 렌더링하는 컴포넌트
-const TodoPage = () => {
+export default function TodoPage() {
     return (
         <div className="container mx-auto my-10 px-4"> 
             {/* container: 기본적인 Tailwind 컨테이너 설정 사용 */}
@@ -14,5 +14,3 @@ const TodoPage = () => {
         </div>
     )
 }
-
-export default TodoPage;

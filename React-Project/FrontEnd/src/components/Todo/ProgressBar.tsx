@@ -16,7 +16,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-const ProgressBar = ({ completedTodosCount, totalTodosCount }: ProgressBarProps) => {
+export default function ProgressBar({ completedTodosCount, totalTodosCount }: ProgressBarProps) {
   const completionRate = totalTodosCount > 0 ? (completedTodosCount / totalTodosCount) * 100 : 0; // 완료된 할 일의 비율 계산
 
   return (
@@ -36,5 +36,3 @@ const ProgressBar = ({ completedTodosCount, totalTodosCount }: ProgressBarProps)
     </div>
   );
 };
-
-export default ProgressBar;

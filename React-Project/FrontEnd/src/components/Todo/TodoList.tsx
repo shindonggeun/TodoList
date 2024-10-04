@@ -3,7 +3,7 @@
 import TodoItem from '@src/components/Todo/TodoItem';
 import { useTodoStore } from '@src/stores/TodoStore';
 
-const TodoList = () => {
+export default function TodoList() {
   const { todos } = useTodoStore(); // zustand store에서 할 일 목록 가져옴 (저장된 변수)
 
   return (
@@ -23,5 +23,3 @@ const TodoList = () => {
     </div>
   );
 };
-
-export default TodoList;

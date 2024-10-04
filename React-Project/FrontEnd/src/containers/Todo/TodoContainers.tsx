@@ -31,13 +31,15 @@ export default function TodoContainer() {
             totalTodosCount={totalTodosCount} // 전체 할 일 개수 전달
           />
 
-          {/* 완료된 항목 삭제 버튼 */}
-          <button
-            onClick={removeCheckedTodos} // 완료된 할 일 목록 삭제하는 함수
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Remove checked
-          </button>
+          {/* 완료된 항목 삭제 버튼 (완료된 항목이 하나 이상 있을 때만 버튼이 보이도록 조건부 렌더링)*/}
+          {completedTodosCount > 0 && (
+            <button
+              onClick={removeCheckedTodos} // 완료된 할 일 목록 삭제하는 함수
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Remove checked
+            </button>
+          )}
         </div>
       </div>
     </div>

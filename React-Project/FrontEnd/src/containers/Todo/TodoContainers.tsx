@@ -24,12 +24,14 @@ export default function TodoContainer() {
       {/* 완료된 할 일 개수 및 진행도를 보여주는 프로그레스 바 컴포넌트 */}
       <div className="progress-section mt-4">
         {/* 프로그레스 바와 버튼을 flex로 가로 정렬 */}
-        <div className="flex items-center justify-between space-x-4">
-          {/* 프로그레스 바 컴포넌트 */}
-          <ProgressBar
-            completedTodosCount={completedTodosCount} // 완료된 할 일 개수 전달
-            totalTodosCount={totalTodosCount} // 전체 할 일 개수 전달
-          />
+        <div className="flex items-center space-x-4">
+          {/* 프로그레스 바 컴포넌트 고정된 크기 설정 */}
+          <div className="flex-grow" style={{ maxWidth: '85%' }}>
+            <ProgressBar
+              completedTodosCount={completedTodosCount} // 완료된 할 일 개수 전달
+              totalTodosCount={totalTodosCount} // 전체 할 일 개수 전달
+            />
+          </div>
 
           {/* 완료된 항목 삭제 버튼 (완료된 항목이 하나 이상 있을 때만 버튼이 보이도록 조건부 렌더링)*/}
           {completedTodosCount > 0 && (

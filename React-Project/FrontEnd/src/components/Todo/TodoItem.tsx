@@ -1,6 +1,6 @@
 // components/Todo/TodoItem.tsx
 
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useTodoStore } from '@src/stores/TodoStore';
 import { TodoItemProps } from '@src/types/TodoType';
 import { IconButton } from '@mui/material';
@@ -10,11 +10,11 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 export default function TodoItem({ task, completed, id }: TodoItemProps) {
   const { toggleTodo, deleteTodo, updateTodo } = useTodoStore(); // zustand에서 할 일 상태 변경 메서드, 할 일 삭제 메서드, 할 일 내용 수정 메서드 가져옴
-  const [isUpdating, setIsUpdating] = useState(false); // 수정 모드 여부 상태
-  const [newTask, setNewTask] = useState(task); // 수정 중인 할 일 내용을 로컬 상태로 관리
+  const [isUpdating, setIsUpdating] = useState<boolean>(false); // 수정 모드 여부 상태
+  const [newTask, setNewTask] = useState<string>(task); // 수정 중인 할 일 내용을 로컬 상태로 관리
 
   // 수정 내용 저장 메서드
-  const handleSubmit = e => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     updateTodo(id, newTask); // zustand에서 할 일 내용 업데이트
     setIsUpdating(false); // 수정 모드 종료

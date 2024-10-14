@@ -2,4 +2,4 @@
 FROM nginx:latest
 
 # nginx 설정 파일을 컨테이너의 적절한 위치에 복사합니다.
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/default.conf

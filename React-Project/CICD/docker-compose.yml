@@ -1,0 +1,24 @@
+services:
+  # PostgreSQL 설정
+  postgresql_service:
+    image: bitnami/postgresql:latest
+    container_name: postgresql
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRESQL_USERNAME: ${POSTGRESQL_USERNAME}  # PostgreSQL 사용자 이름
+      POSTGRESQL_PASSWORD: ${POSTGRESQL_PASSWORD}  # PostgreSQL 사용자 비밀번호
+      POSTGRESQL_DATABASE: ${POSTGRESQL_DATABASE}     # 기본으로 생성할 데이터베이스 이름
+    volumes:
+      - postgres_data:/bitnami/postgresql  # 데이터 영속성을 위한 볼륨 설정
+    networks:
+      - todo-net
+
+volumes:
+  postgres_data:
+
+networks:
+  todo-net:
+    name: todo-net
+    driver: bridge

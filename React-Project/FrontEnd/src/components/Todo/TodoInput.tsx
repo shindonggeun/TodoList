@@ -24,6 +24,7 @@ export default function TodoInput() {
       <input
         className="border p-2 flex-1 mr-2 rounded-lg"
         value={task}
+
         onChange={(e) => setTask(e.target.value)}
         placeholder="해야할 일을 추가해주세요"
       />

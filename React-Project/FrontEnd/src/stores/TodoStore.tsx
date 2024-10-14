@@ -1,12 +1,12 @@
 // store/TodoStore.ts
 import { create, StateCreator } from 'zustand';
-import { persist, PersistOptions } from 'zustand/middleware';
-import { TodoType } from '@src/types/TodoType';
+import { persist, PersistOptions, createJSONStorage } from 'zustand/middleware';
+import { Todo } from '@src/types/TodoType';
 import { v4 as uuidv4 } from 'uuid';
 
 // 상태 관리할 Todo 관련 타입 정의
 type TodoState = {
-  todos: TodoType[]; // Todo 항목 목록
+  todos: Todo[]; // Todo 항목 목록
   addTodo: (task: string) => void; // 할 일 추가
   toggleTodo: (id: string) => void; // 할 일 완료 상태 토글
   deleteTodo: (id: string) => void; // 할 일 삭제
@@ -62,7 +62,7 @@ export const useTodoStore = create<TodoState>(
     }),
     {
       name: 'todo-storage', // 로컬 스토리지에 저장할 키 이름
-      getStorage: () => localStorage, // 로컬 스토리지를 사용
+      storage: createJSONStorage(() => localStorage), // createJSONStorage로 변경
     }
   )
 );

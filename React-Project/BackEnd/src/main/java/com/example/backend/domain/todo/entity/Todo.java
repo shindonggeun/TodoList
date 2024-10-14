@@ -1,5 +1,6 @@
 package com.example.backend.domain.todo.entity;
 
+import com.example.backend.domain.todo.dto.TodoRequest;
 import com.example.backend.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,4 +24,12 @@ public class Todo extends BaseEntity {
     @Comment("완료 여부")
     @Column(nullable = false)
     private Boolean isCompleted;
+
+    public void update(TodoRequest todoRequest) {
+        this.content = todoRequest.content();
+    }
+
+    public void updateIsCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
 }

@@ -1,7 +1,10 @@
 package com.example.backend.domain.todo.dto;
 
+import lombok.Builder;
+
+@Builder
 public record TodoResponse(
-        Long id,
+        long id,
         String content,
         boolean isCompleted
 ) {

@@ -12,10 +12,10 @@ public interface TodoService {
     List<TodoResponse> getTodoList();
 
     // 할 일 생성
-    TodoResponse createTodo(TodoRequest todoRequest);
+    void createTodo(TodoRequest todoRequest);
 
     // 할 일 수정
     void updateTodo(Long todoId, TodoRequest todoRequest);
 
-    void updateTodoStatus(Long todoId, boolean isCompleted);
+    void updateIsCompletedTodo(Long todoId, boolean isCompleted);
 }

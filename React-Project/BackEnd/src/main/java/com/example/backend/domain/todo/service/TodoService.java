@@ -14,8 +14,6 @@ public interface TodoService {
     // 할 일 생성
     void createTodo(TodoRequest todoRequest);
 
-    // 할 일 수정
-    void updateTodo(Long todoId, TodoRequest todoRequest);
-
-    void updateIsCompletedTodo(Long todoId, boolean isCompleted);
+    // 할 일 내용 수정
+    void updateContentTodo(Long todoId, TodoRequest todoRequest);
 }

@@ -38,15 +38,9 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void updateTodo(Long todoId, TodoRequest todoRequest) {
+    public void updateContentTodo(Long todoId, TodoRequest todoRequest) {
         Todo todo = findTodoById(todoId);
         todo.update(todoRequest);
-    }
-
-    @Override
-    public void updateIsCompletedTodo(Long todoId, boolean isCompleted) {
-        Todo todo = findTodoById(todoId);
-        todo.updateIsCompleted(isCompleted);
     }
 
     private Todo findTodoById(Long todoId) {

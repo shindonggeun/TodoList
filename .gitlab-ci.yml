@@ -13,8 +13,6 @@ build_spring_server:
   before_script:
     - echo 'build' 
     - chmod +x $SERVICE_SPRING_PATH/gradlew
-    - mkdir -p /home/gitlab-runner/build || true
-    - chmod 755 /home/gitlab-runner/build
   script:
     - |
       echo "JOB_ID_LOGSTASH=$CI_JOB_ID" >> ./build.env

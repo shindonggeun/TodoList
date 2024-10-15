@@ -26,6 +26,7 @@ public class TodoServiceImpl implements TodoService {
 
         return todoList.stream()
                 .map(todo -> TodoResponse.builder()
+                        .id(todo.getId())
                         .content(todo.getContent())
                         .isCompleted(todo.getIsCompleted())
                         .build()

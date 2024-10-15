@@ -10,7 +10,7 @@ services:
       - "8080:8080"  # 호스트의 8080 포트를 컨테이너의 8080 포트에 바인딩합니다.
     environment:
       - TZ=Asia/Seoul # 해당 백엔드 서버의 시간을 아시아/서울로 설정합니다.
-      # - jasypt.encryptor.key=${jasypt.encryptor.key}  # 환경 변수로 jasypt 암호화 키를 설정합니다.
+      - jasypt.encryptor.key=${jasypt.encryptor.key}  # 환경 변수로 jasypt 암호화 키를 설정합니다.
       - BASE_URL=${BASE_URL}
       - DB_URL=${DB_URL}
       - DB_USERNAME=${DB_USERNAME}

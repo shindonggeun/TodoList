@@ -21,9 +21,9 @@ build_spring_server:
       paths:
           - $SERVICE_SPRING_PATH/build/libs  # 빌드된 결과물을 아티팩트로 저장
       expire_in: 1 week  # 아티팩트 보존 기간: 1주일 동안 보관
-  only:
-    changes:
-      - React-Project/BackEnd/**  # 백엔드 폴더 내 변경 사항이 있을 때만 빌드 수행
+  # only:
+  #   changes:
+  #     - React-Project/BackEnd/**  # 백엔드 폴더 내 변경 사항이 있을 때만 빌드 수행
 
 # 백엔드 서버 테스트 작업 정의
 # test_spring_server:
@@ -48,6 +48,6 @@ deploy_spring_server:
     - cd $SERVICE_SPRING_PATH
     - docker-compose -f docker-compose-springboot.yml --env-file .env-springboot down --volumes  # 환경 변수 파일 적용하여 기존 컨테이너 및 볼륨 삭제
     - docker-compose -f docker-compose-springboot.yml --env-file .env-springboot up --build -d  # 도커 컴포즈로 배포
-  # only:
-  #   changes:
-  #     - React-Project/BackEnd/**  # 백엔드 폴더 내 변경 사항이 있을 때만 배포 수행
+  only:
+    changes:
+      - React-Project/BackEnd/**  # 백엔드 폴더 내 변경 사항이 있을 때만 배포 수행

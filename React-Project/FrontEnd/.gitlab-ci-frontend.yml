@@ -2,22 +2,8 @@ variables:
   SERVICE_FRONTEND_PATH: "./React-Project/FrontEnd"
 
 stages:
-  - build
   - deploy
-
-build_frontend:
-  stage: build
-  before_script:
-    - echo '프론트엔드 빌드 중...'  # 빌드 시작 메시지 출력
-    - cd $SERVICE_FRONTEND_PATH  # 프론트엔드 경로로 이동
-    - npm ci  # 의존성 설치 (npm install 대신 npm ci를 사용하여 속도 향상)
-  script:
-    - npm run build  # Vite를 통해 프로젝트 빌드
-  artifacts:
-    paths:
-      - $SERVICE_FRONTEND_PATH/dist  # 빌드된 결과물을 아티팩트로 저장
-    expire_in: 1 week  # 아티팩트 보존 기간: 1주일 동안 보관
-
+  - clean
   
 # 프론트엔드 서버 배포 작업 정의
 deploy_frontend:
@@ -25,8 +11,11 @@ deploy_frontend:
   script:
     - echo "프론트엔드 관련 설정 도커 컨테이너 배포 중..."
     - cd $SERVICE_FRONTEND_PATH
-    - docker-compose -f docker-compose-frontend.yml down --volumes  # 기존 컨테이너 및 볼륨 삭제
-    - docker-compose -f docker-compose-frontend.yml up --build -d  # 도커 컴포즈로 배포
-  only:
-    changes:
-      - React-Project/FrontEnd/**  # 프론트엔드 폴더 내 변경 사항이 있을 때만 배포 수행
+    - docker-compose -f docker-compose-frontend.yml down --volumes react_service nginx_service
+    - docker-compose -f docker-compose-frontend.yml up --build -d react_service nginx_service
+
+clean_frontend:
+  stage: clean
+  script:
+    - docker stop react || true
+    - docker rm react || true

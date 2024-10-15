@@ -19,6 +19,6 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver  # PostgreSQL 드라이버 클래스
-    url: jdbc:postgresql://${server.base-url}:5432/mirero  # PostgreSQL URL
+    url: jdbc:postgresql://${server.base-url}:5432/mirero-local  # PostgreSQL URL
     username: mirero  # PostgreSQL 사용자 이름
     password: mirero  # PostgreSQL 비밀번호

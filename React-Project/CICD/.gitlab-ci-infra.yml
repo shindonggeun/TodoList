@@ -8,21 +8,22 @@ stages:
 deploy_infra:
   stage: deploy
   script:
-    - echo `인프라 관련 설정 도커 컨테이너 배포 중...`
+    - echo "인프라 관련 설정 도커 컨테이너 배포 중..."
     - cd $SERVICE_INFRA_PATH
     
     # PostgreSQL 컨테이너 실행 상태 확인
-    - echo `PostgreSQL 컨테이너 실행 상태 확인 중...`
+    - echo "PostgreSQL 컨테이너 실행 상태 확인 중..."
     - export isPostgresRunning=$(docker ps --filter name=postgresql --filter status=running --format '{{.Names}}')
-    - echo `PostgreSQL 실행 상태: ${isPostgresRunning}`
+    - echo "PostgreSQL 실행 상태: ${isPostgresRunning}"
     
     # PostgreSQL이 실행 중이지 않을 때만 Docker Compose로 실행
-    # - if [ -z "$isPostgresRunning" ]; then
-    # - echo "PostgreSQL 컨테이너가 실행 중이 아닙니다. Docker Compose로 PostgreSQL 실행...";
-    # - docker-compose -f docker-compose.yml --env-file .env-postgresql up --build -d postgresql_service;
-    # - else
-    # - echo "PostgreSQL 컨테이너가 이미 실행 중입니다.";
-    # - fi
+    - |
+      if [ -z "$isPostgresRunning" ]; then
+        echo "PostgreSQL 컨테이너가 실행 중이 아닙니다. Docker Compose로 PostgreSQL 실행...";
+        docker-compose -f docker-compose.yml --env-file .env-postgresql up --build -d postgresql_service;
+      else
+        echo "PostgreSQL 컨테이너가 이미 실행 중입니다.";
+      fi
   # only:
   #   changes:
   #     - React-Project/BackEnd/**  # 백엔드 폴더 내 변경 사항이 있을 때만 배포 수행

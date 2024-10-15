@@ -17,5 +17,4 @@ deploy_infra:
 
     # PostgreSQL 컨테이너 실행 상태 확인
     - echo "PostgreSQL 컨테이너 실행 상태 확인 중..."
-    - export isPostgresRunning=$(docker ps --filter name=postgresql --filter status=running --format '{{.Names}}') || true
-    - echo "PostgreSQL 실행 상태: ${isPostgresRunning}"
+    - isPostgresRunning=$(docker ps --filter name=postgresql --filter status=running --format '{{.Names}}') || true

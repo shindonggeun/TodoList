@@ -1,0 +1,34 @@
+# 공통 변수 설정: 백엔드 경로를 변수로 지정하여 여러 곳에서 사용할 수 있도록 설정
+variables:
+  SERVICE_INFRA_PATH: "./React-Project/CICD"
+
+# 파이프라인에서 사용할 스테이지들 정의: 빌드, 테스트, 배포 단계로 구성
+stages:
+  - deploy
+
+# 백엔드 서버 배포 작업
+deploy_spring_server:
+  stage: deploy
+  script:
+    - echo "인프라 관련 설정 도커 컨테이너 배포 중..."
+    - cd $SERVICE_INFRA_PATH
+    
+    # PostgreSQL 컨테이너 실행 상태 확인
+    - echo "PostgreSQL 컨테이너 실행 상태 확인 중..."
+    - >
+      isPostgresRunning=$(docker ps --filter name=postgresql --filter status=running --format '{{.Names}}')
+    - echo "PostgreSQL 실행 상태: ${isPostgresRunning}"
+    
+    # PostgreSQL이 실행 중이지 않을 때만 Docker Compose로 실행
+    - >
+      if [ -z "$isPostgresRunning" ]; then
+        echo "PostgreSQL 컨테이너가 실행 중이 아닙니다. Docker Compose로 PostgreSQL 실행..."
+        docker-compose -f docker-compose.yml --env-file .env-postgresql up --build -d postgresql_service
+      else
+        echo "PostgreSQL 컨테이너가 이미 실행 중입니다."
+      fi
+
+  # 다른 필요한 서비스도 마찬가지로 실행 상태 확인 후 실행 가능
+  # only:
+  #   changes:
+  #     - React-Project/CICD/**  # CICD 폴더 내 변경 사항이 있을 때만 배포 수행

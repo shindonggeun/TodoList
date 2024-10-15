@@ -1,7 +1,7 @@
 include:
-  - local: 'React-Project/CICD/.gitlab-ci-infra.yml'  # 인프라 파이프라인 파일 포함
-  - local: 'React-Project/BackEnd/.gitlab-ci-backend.yml'  # 백엔드 파이프라인 파일 포함
-  # - local: './React-Project/FrontEnd/.gitlab-ci-frontend.yml'  # 프론트엔드 파이프라인 파일 포함
+  - local: 'React-Project/CICD/.gitlab-ci-infra.yml'  # 인프라 파이프라인
+  - local: 'React-Project/BackEnd/.gitlab-ci-backend.yml'  # 백엔드 파이프라인
+  - local: 'React-Project/FrontEnd/.gitlab-ci-frontend.yml'  # 프론트엔드 파이프라인
 
 stages:
   - build

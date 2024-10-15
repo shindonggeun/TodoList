@@ -12,7 +12,7 @@ stages:
 build_spring_server:
   stage: build
   before_script:
-    - echo 'Starting BackEnd build process...'  # 빌드 시작 메시지 출력
+    - echo '백엔드 빌드 중...'  # 빌드 시작 메시지 출력
     - chmod +x $SERVICE_SPRING_PATH/gradlew  # gradlew 파일에 실행 권한 부여
   script:
     - cd $SERVICE_SPRING_PATH  # 백엔드 경로로 이동
@@ -28,7 +28,7 @@ test_spring_server:
   dependencies:
     - build_spring_server  # 테스트 단계는 빌드가 성공적으로 완료된 후에 실행
   before_script:
-    - echo 'Starting BackEnd test process...'  # 테스트 시작 메시지 출력
+    - echo '백엔드 테스트 진행 중...'  # 테스트 시작 메시지 출력
     - chmod +x $SERVICE_SPRING_PATH/gradlew  # gradlew 파일에 실행 권한 부여
   script:
     - cd $SERVICE_SPRING_PATH  # 백엔드 경로로 이동
@@ -38,7 +38,7 @@ test_spring_server:
 deploy_spring_server:
   stage: deploy
   script:
-    - echo "Deploying BackEnd..."
+    - echo "백엔드 관련 도커 컨테이너 배포 중..."
     - cd $SERVICE_SPRING_PATH
     - docker-compose -f docker-compose-springboot.yml --env-file .env-springboot down --volumes  # 환경 변수 파일 적용하여 기존 컨테이너 및 볼륨 삭제
     - docker-compose -f docker-compose-springboot.yml --env-file .env-springboot up --build -d  # 도커 컴포즈로 배포

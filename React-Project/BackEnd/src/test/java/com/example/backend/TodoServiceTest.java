@@ -3,7 +3,6 @@ package com.example.backend;
 import com.example.backend.domain.todo.dto.TodoRequest;
 import com.example.backend.domain.todo.entity.Todo;
 import com.example.backend.domain.todo.repository.TodoRepository;
-import com.example.backend.domain.todo.service.TodoService;
 import com.example.backend.domain.todo.service.TodoServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

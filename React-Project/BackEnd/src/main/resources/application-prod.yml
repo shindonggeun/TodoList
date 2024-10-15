@@ -22,3 +22,7 @@ spring:
     url: ${DB_URL}  # PostgreSQL URL
     username: ${DB_USERNAME}  # PostgreSQL 사용자 이름
     password: ${DB_PASSWORD}  # PostgreSQL 비밀번호
+
+jasypt:
+  encryptor:
+    key: ${JASYPT_ENCRYPTOR_KEY}

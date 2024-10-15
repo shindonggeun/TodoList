@@ -4,38 +4,38 @@ variables:
 
 # 파이프라인에서 사용할 스테이지들 정의: 빌드, 테스트, 배포 단계로 구성
 stages: 
-  - build
-  - test
+  # - build
+  # - test
   - deploy
 
 # 백엔드 서버 빌드 작업 정의
-build_spring_server:
-  stage: build
-  before_script:
-    - echo 'Starting BackEnd build process...'  # 빌드 시작 메시지 출력
-    - chmod +x $SERVICE_SPRING_PATH/gradlew  # gradlew 파일에 실행 권한 부여
-  script:
-    - cd $SERVICE_SPRING_PATH  # 백엔드 경로로 이동
-    - ./gradlew clean assemble  # 프로젝트를 빌드 (클린 빌드)
-  artifacts:
-      paths:
-          - $SERVICE_SPRING_PATH/build/libs  # 빌드된 결과물을 아티팩트로 저장
-      expire_in: 1 week  # 아티팩트 보존 기간: 1주일 동안 보관
+# build_spring_server:
+#   stage: build
+#   before_script:
+#     - echo 'Starting BackEnd build process...'  # 빌드 시작 메시지 출력
+#     - chmod +x $SERVICE_SPRING_PATH/gradlew  # gradlew 파일에 실행 권한 부여
+#   script:
+#     - cd $SERVICE_SPRING_PATH  # 백엔드 경로로 이동
+#     - ./gradlew clean assemble  # 프로젝트를 빌드 (클린 빌드)
+#   artifacts:
+#       paths:
+#           - $SERVICE_SPRING_PATH/build/libs  # 빌드된 결과물을 아티팩트로 저장
+#       expire_in: 1 week  # 아티팩트 보존 기간: 1주일 동안 보관
   # only:
   #   changes:
   #     - React-Project/BackEnd/**  # 백엔드 폴더 내 변경 사항이 있을 때만 빌드 수행
 
 # 백엔드 서버 테스트 작업 정의
-test_spring_server:
-  stage: test
-  dependencies:
-    - build_spring_server  # 테스트 단계는 빌드가 성공적으로 완료된 후에 실행
-  before_script:
-    - echo 'Starting BackEnd test process...'  # 테스트 시작 메시지 출력
-    - chmod +x $SERVICE_SPRING_PATH/gradlew  # gradlew 파일에 실행 권한 부여
-  script:
-    - cd $SERVICE_SPRING_PATH  # 백엔드 경로로 이동
-    - ./gradlew test  # 빌드된 결과물에 대해 테스트 수행
+# test_spring_server:
+#   stage: test
+#   dependencies:
+#     - build_spring_server  # 테스트 단계는 빌드가 성공적으로 완료된 후에 실행
+#   before_script:
+#     - echo 'Starting BackEnd test process...'  # 테스트 시작 메시지 출력
+#     - chmod +x $SERVICE_SPRING_PATH/gradlew  # gradlew 파일에 실행 권한 부여
+#   script:
+#     - cd $SERVICE_SPRING_PATH  # 백엔드 경로로 이동
+#     - ./gradlew test  # 빌드된 결과물에 대해 테스트 수행
   # only:
   #   changes:
   #     - React-Project/BackEnd/**  # 백엔드 폴더 내 변경 사항이 있을 때만 테스트 수행

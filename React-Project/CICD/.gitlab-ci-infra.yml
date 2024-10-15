@@ -15,12 +15,11 @@ deploy_spring_server:
     
     # PostgreSQL 컨테이너 실행 상태 확인
     - echo "PostgreSQL 컨테이너 실행 상태 확인 중..."
-    - >
-      isPostgresRunning=$(docker ps --filter name=postgresql --filter status=running --format '{{.Names}}')
+    - isPostgresRunning=$(docker ps --filter name=postgresql --filter status=running --format '{{.Names}}')
     - echo "PostgreSQL 실행 상태: ${isPostgresRunning}"
     
     # PostgreSQL이 실행 중이지 않을 때만 Docker Compose로 실행
-    - >
+    - |
       if [ -z "$isPostgresRunning" ]; then
         echo "PostgreSQL 컨테이너가 실행 중이 아닙니다. Docker Compose로 PostgreSQL 실행..."
         docker-compose -f docker-compose.yml --env-file .env-postgresql up --build -d postgresql_service

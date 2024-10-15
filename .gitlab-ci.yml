@@ -1,0 +1,40 @@
+variables:
+  SERVICE_SPRING_PATH: "./React-Project/BackEnd"
+  
+stages: 
+  - build
+  - test
+
+# before_script:
+#   - CHCP 65001  
+
+build_spring_server:
+  stage: build
+  before_script:
+    - echo 'build' 
+    - chmod +x $SERVICE_SPRING_PATH/gradlew
+  script:
+    - |
+      echo "JOB_ID_LOGSTASH=$CI_JOB_ID" >> ./build.env
+      cat ./build.env
+    # - ls
+    - cd $SERVICE_SPRING_PATH
+    - ./gradlew clean assemble
+    - echo $CI_JOB_ID
+  artifacts:
+      paths:
+          - $SERVICE_SPRING_PATH/build/libs
+      reports:
+         dotenv: ./build.env 
+      expire_in: 1 week
+
+ 
+test_spring_server:
+  stage: test
+  before_script:
+      - echo 'Test'
+      - chmod +x $SERVICE_SPRING_PATH/gradlew
+  script:
+      - cd $SERVICE_SPRING_PATH
+      - ./gradlew test
+      - echo $CI_JOB_ID

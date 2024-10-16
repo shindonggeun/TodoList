@@ -26,9 +26,9 @@ public class TodoServiceTest {
     @InjectMocks
     private TodoServiceImpl todoService;
 
-    @DisplayName("할일 생성하기 성공 테스트")
     @Test
-    public void 할일생성하기테스트() {
+    @DisplayName("할일 생성하기 성공 테스트")
+    public void 할일_생성하기_테스트() {
         // Given (준비 단계)
         TodoRequest todoRequest = new TodoRequest("할일 테스트 가즈아");
         Todo todo = Todo.builder()
@@ -48,9 +48,9 @@ public class TodoServiceTest {
         verify(todoRepository, times(1)).save(any(Todo.class));
     }
 
-    @DisplayName("할일 목록 가져오기 성공 테스트")
     @Test
-    public void 할일목록가져오기테스트() {
+    @DisplayName("할일 목록 가져오기 성공 테스트")
+    public void 할일_목록_가져오기_테스트() {
         // Given (준비 단계)
         List<Todo> todoList = List.of(
                 Todo.builder().id(1L).content("할일 1").isCompleted(false).build(),
@@ -73,9 +73,9 @@ public class TodoServiceTest {
         verify(todoRepository, times(1)).findByIsCompletedFalse();
     }
 
-    @DisplayName("할일 수정하기 성공 테스트")
     @Test
-    public void 할일수정하기테스트() {
+    @DisplayName("할일 수정하기 성공 테스트")
+    public void 할일_수정하기_테스트() {
         // Given (준비 단계)
         Long todoId = 1L;
         TodoRequest todoRequest = new TodoRequest("할일 수정 테스트");
@@ -98,9 +98,9 @@ public class TodoServiceTest {
         verify(todoRepository, times(1)).findById(todoId);
     }
 
-    @DisplayName("할일 수정 실패 테스트 - 존재하지 않는 할일을 수정하려고 시도")
     @Test
-    public void 할일수정실패테스트() {
+    @DisplayName("할일 수정 실패 테스트 - 존재하지 않는 할일을 수정하려고 시도")
+    public void 할일_수정_실패_테스트() {
         // Given (준비 단계)
         Long todoId = 1L;
 

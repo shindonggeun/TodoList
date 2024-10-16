@@ -16,10 +16,6 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver  # PostgreSQL 드라이버 클래스
-    url: ENC(5yJOhd01eBlZK5LLojFte6yLTbpu/nabYQ1bNXMw7AKhsMMrHQ57BivgtXyUiTFdlVRUwNN5kCU=)  # PostgreSQL URL
-    username: ENC(vQO9dIVNfXDLUQp3imIgjg==)  # PostgreSQL 사용자 이름
-    password: ENC(kZHSmrXW8wYVQBPVFTmCiQ==)  # PostgreSQL 비밀번호
-
-jasypt:
-  encryptor:
-    key: ${JASYPT_ENCRYPTOR_KEY}  # 환경 변수로부터 Jasypt 암호화 키를 가져옴
+    url: ENC(jkMUK/OkHXEMwd7OKMHeB9/iO09jtZ6Mk7UNbcFgKZGXEmwAgBSdTZSn9jXcUsnBIwVhhHAsBlk=)  # PostgreSQL URL
+    username: ENC(KdPLI5QUlg/MF5V/mAh22A==)  # PostgreSQL 사용자 이름
+    password: ENC(t9+Y/8tb5QSeHo6ztEcOxA==)  # PostgreSQL 비밀번호

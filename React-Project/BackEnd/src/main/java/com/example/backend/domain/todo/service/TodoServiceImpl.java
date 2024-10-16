@@ -22,7 +22,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public List<TodoResponse> getTodoList() {
         // TODO: 추후에 QueryDSL 이용해서 페이지네이션 적용
-        List<Todo> todoList = todoRepository.findAll();
+        List<Todo> todoList = todoRepository.findByIsCompletedFalse();
 
         return todoList.stream()
                 .map(todo -> TodoResponse.builder()

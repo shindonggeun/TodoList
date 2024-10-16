@@ -21,10 +21,10 @@ import static org.mockito.Mockito.*;
 public class TodoServiceTest {
 
     @Mock
-    private TodoRepository todoRepository;
+    private TodoRepository todoRepository; // 모킹된 레포지토리 객체
 
     @InjectMocks
-    private TodoServiceImpl todoService;
+    private TodoServiceImpl todoService; // 모킹된 레포지토리를 주입받은 실제 서비스 객체
 
     @Test
     @DisplayName("할일 생성하기 성공 테스트")

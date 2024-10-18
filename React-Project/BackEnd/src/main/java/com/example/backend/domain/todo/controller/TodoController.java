@@ -4,6 +4,7 @@ import com.example.backend.domain.todo.dto.TodoRequest;
 import com.example.backend.domain.todo.dto.TodoResponse;
 import com.example.backend.domain.todo.service.TodoService;
 import com.example.backend.global.common.dto.Message;
+import com.example.backend.global.common.dto.SliceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,12 @@ public class TodoController {
 
     @Operation(
             summary = " 할일 목록 가져오기",
-            description = "할일 목록을 가져오는 기능입니다."
+            description = "할일 목록을 가져오는 기능입니다. 마지막 ID 커서 기반 noOffSet 방식이 적용되어 있습니다."
     )
     @GetMapping
-    public ResponseEntity<Message<List<TodoResponse>>> getTodoList() {
-        List<TodoResponse> todoResponseList = todoService.getTodoList();
+    public ResponseEntity<Message<SliceResponse<TodoResponse>>> getTodoList(@RequestParam(required = false) Long lastTodoId,
+                                                                   @RequestParam(defaultValue = "10") int limit) {
+        SliceResponse<TodoResponse> todoResponseList = todoService.getTodoList(lastTodoId, limit);
         return ResponseEntity.ok().body(Message.success(todoResponseList));
     }
 
@@ -35,7 +37,7 @@ public class TodoController {
             description = "할일을 생성하는 기능입니다."
     )
     @PostMapping
-    public ResponseEntity<Message<Void>> createTodo(TodoRequest todoRequest) {
+    public ResponseEntity<Message<Void>> createTodo(@RequestBody TodoRequest todoRequest) {
         todoService.createTodo(todoRequest);
         return ResponseEntity.ok().body(Message.success());
     }

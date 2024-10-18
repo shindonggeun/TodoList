@@ -4,9 +4,11 @@ import com.example.backend.domain.todo.dto.TodoRequest;
 import com.example.backend.domain.todo.dto.TodoResponse;
 import com.example.backend.domain.todo.entity.Todo;
 import com.example.backend.domain.todo.repository.TodoRepository;
+import com.example.backend.global.common.dto.SliceResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,17 +22,9 @@ public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
 
     @Override
-    public List<TodoResponse> getTodoList() {
-        // TODO: 추후에 QueryDSL 이용해서 페이지네이션 적용
-        List<Todo> todoList = todoRepository.findByIsCompletedFalse();
-
-        return todoList.stream()
-                .map(todo -> TodoResponse.builder()
-                        .id(todo.getId())
-                        .content(todo.getContent())
-                        .isCompleted(todo.getIsCompleted())
-                        .build()
-                ).toList();
+    public SliceResponse<TodoResponse> getTodoList(Long lastTodoId, int limit) {
+        Slice<TodoResponse> todoResponseList = todoRepository.findTodoListNoOffset(lastTodoId, limit);
+        return SliceResponse.of(todoResponseList);
     }
 
     @Override

@@ -13,12 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -54,7 +50,7 @@ public class TodoControllerTest {
         doNothing().when(todoService).createTodo(any(TodoRequest.class));
 
         // When (실행 단계) & Then (검증 단계)
-        mockMvc.perform(post("/api/todo/create")
+        mockMvc.perform(post("/api/v1/todos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(todoRequest))) // JSON으로 변환하여 전송
                 .andExpect(status().isOk())
@@ -71,7 +67,7 @@ public class TodoControllerTest {
         doNothing().when(todoService).updateContentTodo(todoId, todoRequest);
 
         // When (실행 단계) & Then (검증 단계)
-        mockMvc.perform(patch("/api/todo/update/content/{todoId}", todoId)
+        mockMvc.perform(patch("/api/v1/todos/{todoId}/content", todoId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(todoRequest))) // JSON으로 변환하여 전송
                 .andExpect(status().isOk())

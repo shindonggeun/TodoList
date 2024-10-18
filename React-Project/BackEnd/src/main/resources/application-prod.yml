@@ -3,7 +3,7 @@ server:
 
 spring:
   jpa:
-    open-in-view: false
+    open-in-view: true
     defer-datasource-initialization: true
     generate-ddl: true
     hibernate:

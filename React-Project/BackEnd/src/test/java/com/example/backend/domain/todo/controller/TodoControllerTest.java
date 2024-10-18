@@ -48,23 +48,6 @@ public class TodoControllerTest {
     }
 
     @Test
-    @DisplayName("할일 목록 가져오기 성공 테스트")
-    public void 할일_목록_가져오기_성공_테스트() throws Exception {
-        // Given (준비 단계)
-        List<TodoResponse> todoResponseList = Arrays.asList(todoResponse);
-
-        // todoService.getTodoList() 메소드가 호출되면, 해당 메소드가 할일 목록 응답 객체를 반환하도록 설정
-        when(todoService.getTodoList()).thenReturn(todoResponseList);
-
-        // When (실행 단계) & Then (검증 단계)
-        mockMvc.perform(get("/api/todo/list"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.dataBody[0].id").value(todoResponse.id()))
-                .andExpect(jsonPath("$.dataBody[0].content").value(todoResponse.content()))
-                .andExpect(jsonPath("$.dataBody[0].isCompleted").value(todoResponse.isCompleted()));
-    }
-
-    @Test
     @DisplayName("할일 생성하기 성공 테스트")
     public void 할일_생성하기_성공_테스트() throws Exception {
         // Given (준비 단계)

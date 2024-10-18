@@ -4,13 +4,16 @@ import com.example.backend.domain.todo.dto.TodoRequest;
 import com.example.backend.domain.todo.dto.TodoResponse;
 import com.example.backend.domain.todo.entity.Todo;
 import com.example.backend.domain.todo.repository.TodoRepository;
+import com.example.backend.global.common.dto.SliceResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.SliceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,28 +52,39 @@ public class TodoServiceTest {
     }
 
     @Test
-    @DisplayName("할일 목록 가져오기 성공 테스트")
-    public void 할일_목록_가져오기_테스트() {
+    @DisplayName("할일 목록 가져오기 성공 테스트 - 커서 기반 페이징")
+    public void 할일_목록_가져오기_성공_테스트() {
         // Given (준비 단계)
-        List<Todo> todoList = List.of(
-                Todo.builder().id(1L).content("할일 1").isCompleted(false).build(),
-                Todo.builder().id(2L).content("할일 2").isCompleted(false).build()
-        );
 
-        // todoRepository.findAll() 메소드가 호출되면, 미리 정의된 리스트를 반환하도록 설정
-        when(todoRepository.findByIsCompletedFalse()).thenReturn(todoList);
+        List<TodoResponse> todoResponseList = new ArrayList<>();
+        for (long i = 14; i >= 1; i--) {
+            todoResponseList.add(TodoResponse.builder().id(i).content("할일 " + i).isCompleted(false).build());
+        }
+
+        // 실제 페이징 처리를 위해 필요한 첫 10개의 할일만 슬라이스로 추출
+        List<TodoResponse> pageContent = todoResponseList.subList(0, 10);
+        SliceImpl<TodoResponse> slice = new SliceImpl<>(pageContent);
+
+        // todoRepository.findTodoListNoOffset을 호출하면 미리 정의된 slice를 반환하도록 모킹
+        when(todoRepository.findTodoListNoOffset(null, 10)).thenReturn(slice);
 
         // When (실행 단계)
-        List<TodoResponse> todoResponseList = todoService.getTodoList();
+        // lastTodoId = 10을 넘기고 할일 목록을 조회
+        SliceResponse<TodoResponse> result = todoService.getTodoList(null, 10);
 
         // Then (검증 단계)
-        // 가져온 리스트가 두 개의 할 일을 포함하고 있는지 검증
-        assertEquals(2, todoResponseList.size());
-        assertEquals("할일 1", todoResponseList.get(0).content());
-        assertEquals("할일 2", todoResponseList.get(1).content());
+        // 반환된 할일 목록의 크기가 10개인지 검증
+        assertEquals(10, result.getContents().size());
 
-        // findAll 메소드가 정확히 한 번 호출되었는지 검증
-        verify(todoRepository, times(1)).findByIsCompletedFalse();
+        // 목록이 정확한지 검증 (ID 순서대로 할일이 14에서 5까지 있는지 확인)
+        assertEquals("할일 14", result.getContents().get(0).content());
+        assertEquals("할일 5", result.getContents().get(9).content());
+
+        // 마지막 페이지이므로 hasNext는 false여야 함
+        assertFalse(result.getHasNext());
+
+        // findTodoListNoOffset 메소드가 정확히 한 번 호출되었는지 검증
+        verify(todoRepository, times(1)).findTodoListNoOffset(null, 10);
     }
 
     @Test

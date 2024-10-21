@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,23 +25,23 @@ public class TodoRepositoryTest {
     @Autowired
     private TodoRepository todoRepository;
 
-//    @Test
-//    @DisplayName("할일 목록 가져오기 성공 테스트 - 커서 기반 페이징 (lastTodoId = 11)")
-//    public void 할일_목록_가져오기_성공_테스트() {
-//        // Given (준비 단계)
-//        for (long i = 1; i <= 14; i++) {
-//            todoRepository.save(Todo.builder().content("할일 " + i).isCompleted(false).build());
-//        }
-//
-//        // When (실행 단계)
-//        Slice<TodoResponse> result = todoRepository.findTodoListNoOffset(11L, 10);
-//
-//        // Then (검증 단계)
-//        assertThat(result.getContent().size()).isEqualTo(10); // 10개의 할일만 가져와야 함
-//        assertThat(result.hasNext()).isFalse(); // 더 이상의 페이지가 없으므로 hasNext는 false
-//        assertThat(result.getContent().get(0).content()).isEqualTo("할일 10"); // 첫 번째 항목은 "할일 10"
-//        assertThat(result.getContent().get(9).content()).isEqualTo("할일 1"); // 마지막 항목은 "할일 1"
-//    }
+    @Test
+    @DisplayName("할일 목록 가져오기 성공 테스트 - 커서 기반 페이징")
+    public void 할일_목록_가져오기_성공_테스트() {
+        // Given (준비 단계)
+        for (long i = 1; i <= 14; i++) {
+            todoRepository.save(Todo.builder().content("할일 " + i).isCompleted(false).build());
+        }
+
+        // When (실행 단계)
+        Slice<TodoResponse> result = todoRepository.findTodoListNoOffset(null, 10);
+
+        // Then (검증 단계)
+        assertThat(result.getContent().size()).isEqualTo(10); // 10개의 할일만 가져와야 함
+        assertThat(result.hasNext()).isTrue(); // 다음 페이지가 있으므로 hasNext는 true
+        assertThat(result.getContent().get(0).content()).isEqualTo("할일 14"); // 첫 번째 항목은 "할일 14"
+        assertThat(result.getContent().get(9).content()).isEqualTo("할일 5"); // 마지막 항목은 "할일 5"
+    }
 
     @Test
     @DisplayName("할일 생성하기 성공 테스트")

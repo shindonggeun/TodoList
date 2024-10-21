@@ -103,12 +103,14 @@ public class TodoServiceTest {
         when(todoRepository.findById(todoId)).thenReturn(Optional.of(existingTodo));
 
         // When (실행 단계)
-        todoService.updateContentTodo(todoId, todoRequest);
+        TodoResponse result = todoService.updateContentTodo(todoId, todoRequest);
 
         // Then (검증 단계)
         // 할일 객체가 정상적으로 수정되었는지 검증
-        assertEquals("할일 수정 테스트", existingTodo.getContent());
-        // findById 메소드가 정확히 한 번 호출되었는지 검증
+        assertEquals("할일 수정 테스트", result.content());  // result를 사용하여 검증
+        assertEquals(todoId, result.id()); // ID 값도 일치하는지 확인
+
+        // findById 메서드가 정확히 한 번 호출되었는지 검증
         verify(todoRepository, times(1)).findById(todoId);
     }
 
@@ -121,7 +123,7 @@ public class TodoServiceTest {
         // todoRepository.findById()가 호출되면, 빈 Optional 객체를 반환하도록 설정
         when(todoRepository.findById(todoId)).thenReturn(Optional.empty());
 
-        // When, Then (검증 단계)
+        // When, Then (실행 및 검증 단계)
         // 존재하지 않는 할 일 조회 시 RuntimeException이 발생하는지 검증
         // TODO: RuntimeException이 아닌 Custom Exception으로 처리
         Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -131,5 +133,85 @@ public class TodoServiceTest {
         assertEquals("해당 할 일이 존재하지 않습니다.", exception.getMessage());
         // findById 메소드가 정확히 한 번 호출되었는지 검증
         verify(todoRepository, times(1)).findById(todoId);
+    }
+
+    @Test
+    @DisplayName("할일 목록 완료 처리 성공 테스트")
+    public void 할일_목록_완료_처리_성공_테스트() {
+        // Given (준비 단계)
+        List<Long> todoIdList = List.of(1L, 2L, 3L);
+        List<Todo> todoList = new ArrayList<>();
+
+        todoList.add(Todo.builder().id(1L).content("할일 1").isCompleted(false).build());
+        todoList.add(Todo.builder().id(2L).content("할일 2").isCompleted(false).build());
+        todoList.add(Todo.builder().id(3L).content("할일 3").isCompleted(false).build());
+
+        // todoRespository.findAllByIn()이 호출되면, 미리 정의된 할일 목록 반환
+        when(todoRepository.findAllByIdIn(todoIdList)).thenReturn(todoList);
+
+        // When (실행 단계)
+        List<TodoResponse> result = todoService.updateIsCompletedTodoList(todoIdList);
+
+        // Then (검증 단계)
+        // 할일들이 정상적으로 완료 처리되었는지 검증
+        result.forEach(todoResponse -> assertTrue(todoResponse.isCompleted()));
+
+        // findAllByIdIn 메서드가 정확히 한 번 호출되었는지 검증
+        verify(todoRepository, times(1)).findAllByIdIn(todoIdList);
+
+        // saveAll 메서드가 정확히 한 번 호출되었는지 검증
+        verify(todoRepository, times(1)).saveAll(todoList);
+    }
+
+    @Test
+    @DisplayName("할일 삭제하기 성공 테스트")
+    public void 할일_삭제하기_성공_테스트() {
+        // Given (준비 단계)
+        Long todoId = 1L;
+        Todo todo = Todo.builder()
+                .id(todoId)
+                .content("삭제할 할일")
+                .isCompleted(false)
+                .build();
+
+        // todoRepository.findById()가 호출되면, 미리 정의된 할일 반환
+        when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
+
+        // when (실행 단계)
+        TodoResponse result = todoService.deleteTodo(todoId);
+
+        // Then (검증 단계)
+        // 삭제된 할일이 반환되었는지 검증
+        assertEquals(todoId, result.id());
+
+        // findById 메서드가 정확히 한 번 호출되었는지 검증
+        verify(todoRepository, times(1)).findById(todoId);
+
+        // delete 메서드가 정확히 한 번 호출되었는지 검증
+        verify(todoRepository, times(1)).delete(todo);
+    }
+
+    @Test
+    @DisplayName("할일 삭제 실패 테스트 - 존재하지 않는 할일 삭제 시도")
+    public void 할일_삭제_실패_테스트() {
+        // Given (준비 단계)
+        Long todoId = 1L;
+
+        // todoRepository.findById()가 호출되면, 빈 Optional 반환
+        when(todoRepository.findById(todoId)).thenReturn(Optional.empty());
+
+        // When, Then (실행 및 검증 단계)
+        // 존재하지 않는 할일 삭제 시 Exception 발생 여부 검증
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            todoService.deleteTodo(todoId);
+        });
+
+        assertEquals("해당 할 일이 존재하지 않습니다.", exception.getMessage());
+
+        // findById 메서드가 정확히 한 번 호출되었는지 검증
+        verify(todoRepository, times(1)).findById(todoId);
+
+        // delete 메서드가 호출되지 않았는지 검증
+        verify(todoRepository, times(0)).delete(any());
     }
 }

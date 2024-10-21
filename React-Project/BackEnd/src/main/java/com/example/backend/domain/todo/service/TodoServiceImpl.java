@@ -28,14 +28,53 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void createTodo(TodoRequest todoRequest) {
-        todoRepository.save(todoRequest.toEntity());
+    public TodoResponse createTodo(TodoRequest todoRequest) {
+        Todo todo = todoRepository.save(todoRequest.toEntity());
+
+        return TodoResponse.builder()
+                .id(todo.getId())
+                .content(todo.getContent())
+                .isCompleted(todo.getIsCompleted())
+                .build();
     }
 
     @Override
-    public void updateContentTodo(Long todoId, TodoRequest todoRequest) {
+    public TodoResponse updateContentTodo(Long todoId, TodoRequest todoRequest) {
         Todo todo = findTodoById(todoId);
-        todo.update(todoRequest);
+        todo.updateContent(todoRequest);
+
+        return TodoResponse.builder()
+                .id(todo.getId())
+                .content(todo.getContent())
+                .isCompleted(todo.getIsCompleted())
+                .build();
+    }
+
+    @Override
+    public List<TodoResponse> updateIsCompletedTodoList(List<Long> todoIdList) {
+        List<Todo> todoList = todoRepository.findAllByIdIn(todoIdList);
+
+        todoList.forEach(todo -> todo.updateIsCompleted(true));
+
+        return todoRepository.saveAll(todoList).stream()
+                .map(todo -> TodoResponse.builder()
+                        .id(todo.getId())
+                        .content(todo.getContent())
+                        .isCompleted(todo.getIsCompleted())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public TodoResponse deleteTodo(Long todoId) {
+        Todo todo = findTodoById(todoId);
+        todoRepository.delete(todo);
+
+        return TodoResponse.builder()
+                .id(todo.getId())
+                .content(todo.getContent())
+                .isCompleted(todo.getIsCompleted())
+                .build();
     }
 
     private Todo findTodoById(Long todoId) {

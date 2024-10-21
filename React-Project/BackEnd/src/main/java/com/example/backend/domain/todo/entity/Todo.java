@@ -25,7 +25,7 @@ public class Todo extends BaseEntity {
     @Column(nullable = false)
     private Boolean isCompleted;
 
-    public void update(TodoRequest todoRequest) {
+    public void updateContent(TodoRequest todoRequest) {
         this.content = todoRequest.content();
     }
 

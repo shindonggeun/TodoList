@@ -30,6 +30,7 @@ test_spring_server:
   before_script:
     - echo '백엔드 테스트 진행 중...'  # 테스트 시작 메시지 출력
     - chmod +x $SERVICE_SPRING_PATH/gradlew  # gradlew 파일에 실행 권한 부여
+    - echo "JASYPT_ENCRYPTOR_KEY = $JASYPT_ENCRYPTOR_KEY"  # 환경 변수가 제대로 설정되었는지 출력
   script:
     - cd $SERVICE_SPRING_PATH  # 백엔드 경로로 이동
     - ./gradlew test  # 빌드된 결과물에 대해 테스트 수행

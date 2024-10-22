@@ -19,17 +19,18 @@ const getProgressColor = (completionRate: number) => {
 }
 
 // styled 컴포넌트 내부에서 completionRate 처리
-const BorderLinearProgress = styled(LinearProgress)(({ theme, ownerState }: { ownerState: { completionRate: number } }) => ({
-  height: 20, // 프로그레스 바의 높이를 20px로 설정
-  borderRadius: 5, // 둥글게 처리
+const BorderLinearProgress = styled(LinearProgress)(({ ownerState }: { ownerState: { completionRate: number } }) => ({
+  height: 20, 
+  borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: theme.palette.grey[300], // 배경색 설정
+    backgroundColor: '#e0e0e0', // 기본 배경색 설정
   },
   [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5, // 진행 막대 둥글게 처리
-    backgroundColor: getProgressColor(ownerState.completionRate), // 퍼센티지에 따라 색상 적용
+    borderRadius: 5,
+    backgroundColor: getProgressColor(ownerState.completionRate), // 동적 색상 처리
   },
 }));
+
 
 export default function ProgressBar({ completedTodosCount, totalTodosCount }: ProgressBarProps) {
   const completionRate = totalTodosCount > 0 ? (completedTodosCount / totalTodosCount) * 100 : 0; // 완료된 할 일의 비율 계산

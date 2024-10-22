@@ -18,7 +18,6 @@ export default function TodoContainer() {
   const [checkedTodos, setCheckedTodos] = useState<number[]>([]); // 체크된 항목을 저장할 상태
 
   // 완료된 할 일 개수 및 전체 할 일 개수 계산
-  const completedTodosCount = data?.pages.flatMap((page) => page.contents).filter((todo) => todo.isCompleted).length || 0;
   const totalTodosCount = data?.pages.flatMap((page) => page.contents).length || 0;
 
   // 체크박스 상태 관리 함수
@@ -82,7 +81,7 @@ export default function TodoContainer() {
           <div className="flex-grow" style={{ maxWidth: '85%' }}>
             {/* 체크된 항목과 전체 항목을 ProgressBar에 전달 */}
             <ProgressBar
-              completedTodosCount={completedTodosCount + checkedTodos.length} // 완료된 항목 + 체크된 항목
+              completedTodosCount={checkedTodos.length} // 완료된 항목 + 체크된 항목
               totalTodosCount={totalTodosCount}
             />
           </div>

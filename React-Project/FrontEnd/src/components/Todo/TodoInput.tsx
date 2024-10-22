@@ -6,7 +6,7 @@ import { useCreateTodoMutation } from '@src/queries/TodoQuery'; // React Query �
 
 export default function TodoInput({ onTodoAdded }: { onTodoAdded: () => void }) {
   const [inputContent, setContent] = useState<string>(''); // 입력한 할 일 내용
-  const { mutate: addNewTodo, isLoading } = useCreateTodoMutation(); // 할 일 생성 mutation 훅 사용
+  const { mutate: addNewTodo } = useCreateTodoMutation(); // 할 일 생성 mutation 훅 사용
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -23,9 +23,8 @@ export default function TodoInput({ onTodoAdded }: { onTodoAdded: () => void }) 
         value={inputContent}
         onChange={(e) => setContent(e.target.value)}
         placeholder="해야할 일을 추가해주세요"
-        disabled={isLoading} // 로딩 중일 때 입력 비활성화
       />
-      <IconButton color="primary" type="submit" disabled={isLoading}>
+      <IconButton color="primary" type="submit">
         <AddIcon />
       </IconButton>
     </form>

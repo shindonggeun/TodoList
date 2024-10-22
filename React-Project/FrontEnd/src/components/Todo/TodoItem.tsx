@@ -4,9 +4,9 @@ import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useState } from 'react';
 import { useUpdateTodoMutation } from '@src/queries/TodoQuery';
-import { Todo } from '@src/types/TodoType';
+import { TodoItemProps } from '@src/types/TodoType';
 
-export default function TodoItem({ content, isCompleted, id, onDelete, onToggleChecked, isChecked }: Todo & { onDelete: (id: number) => void, onToggleChecked: (id: number) => void, isChecked: boolean }) {
+export default function TodoItem({ content, isCompleted, id, onDelete, onToggleChecked, isChecked }: TodoItemProps) {
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [newContent, setNewContent] = useState<string>(content);
 

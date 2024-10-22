@@ -1,6 +1,7 @@
 import TodoItem from '@src/components/Todo/TodoItem';
+import { TodoListProps } from '@src/types/TodoType';
 
-export default function TodoList({ data, onDelete, onToggleChecked, checkedTodos }) {
+export default function TodoList({ data, onDelete, onToggleChecked, checkedTodos }: TodoListProps) {
   return (
     <div>
       {data.length === 0 ? (

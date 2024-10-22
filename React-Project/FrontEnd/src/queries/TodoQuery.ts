@@ -27,7 +27,7 @@ export const useCreateTodoMutation = () => {
     return useMutation({
         mutationFn: (data: TodoRequest) => createTodo(data),
         onSuccess: () => {
-            queryClient.invalidateQueries(['todoList']);
+            queryClient.invalidateQueries({ queryKey: ['todoList'] });
         },
     });
 };
@@ -38,7 +38,7 @@ export const useUpdateTodoMutation = (todoId: number) => {
     return useMutation({
         mutationFn: (data: TodoRequest) => updateTodo(todoId, data),
         onSuccess: () => {
-            queryClient.invalidateQueries(['todoList']);
+            queryClient.invalidateQueries({ queryKey: ['todoList'] });
         },
     });
 };
@@ -49,7 +49,7 @@ export const useUpdateIsCompletedTodoMutation = () => {
     return useMutation({
         mutationFn: (todoIds: number[]) => updateIsCompletedTodo(todoIds),
         onSuccess: () => {
-            queryClient.invalidateQueries([`todoList`]); // 완료된 후에 목록을 갱신
+            queryClient.invalidateQueries({ queryKey: ['todoList'] }); // 완료된 후에 목록을 갱신
         }
     })
 }
@@ -60,7 +60,7 @@ export const useDeleteTodoMutation = () => {
     return useMutation({
         mutationFn: (todoId: number) => deleteTodo(todoId),
         onSuccess: () => {
-            queryClient.invalidateQueries(['todoList']);
+            queryClient.invalidateQueries({ queryKey: ['todoList'] });
         },
     });
 };

@@ -1,20 +1,17 @@
-import { useState } from 'react';
-import { useTodoStore } from '@src/stores/TodoStore';
-import { Todo } from '@src/types/TodoType';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; 
 import SaveIcon from '@mui/icons-material/Save';
 import ClearIcon from '@mui/icons-material/Clear';
+import { useState } from 'react';
 import { useUpdateTodoMutation } from '@src/queries/TodoQuery';
+import { Todo } from '@src/types/TodoType';
 
-export default function TodoItem({ content, isCompleted, id, onDelete }: Todo & { onDelete: (id: number) => void }) {
-  const { toggleTodo } = useTodoStore(); // Zustand에서 할 일 상태 변경 메서드
-  const [isUpdating, setIsUpdating] = useState<boolean>(false); // 수정 모드 여부 상태
-  const [newContent, setNewContent] = useState<string>(content); // 수정 중인 할 일 내용을 로컬 상태로 관리
+export default function TodoItem({ content, isCompleted, id, onDelete, onToggleChecked, isChecked }: Todo & { onDelete: (id: number) => void, onToggleChecked: (id: number) => void, isChecked: boolean }) {
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const [newContent, setNewContent] = useState<string>(content);
 
-  const { mutate: updateTodo } = useUpdateTodoMutation(id); // 할일 수정
+  const { mutate: updateTodo } = useUpdateTodoMutation(id);
 
-  // 수정 내용 저장 메서드
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateTodo({ content: newContent });
@@ -24,11 +21,11 @@ export default function TodoItem({ content, isCompleted, id, onDelete }: Todo & 
   return (
     <div className="bg-blue-50 flex items-center justify-between">
       <div>
-        {/* 체크박스 클릭 시 완료 상태 토글 */}
+        {/* 체크박스 클릭 시 상태 변경 */}
         <input
           type="checkbox"
-          checked={isCompleted}
-          onChange={() => toggleTodo(id)}
+          checked={isChecked}
+          onChange={() => onToggleChecked(id)} // 체크 상태 변경 호출
         />
 
         {isUpdating ? (

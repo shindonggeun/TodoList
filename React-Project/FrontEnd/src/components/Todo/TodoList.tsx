@@ -1,21 +1,18 @@
 import TodoItem from '@src/components/Todo/TodoItem';
-import { useTodoStore } from '@src/stores/TodoStore';
 
-export default function TodoList({ onDelete }) {
-  const { todos } = useTodoStore();
-
+export default function TodoList({ data, onDelete, onToggleChecked, checkedTodos }) {
   return (
     <div>
-      {todos.length === 0 ? (
+      {data.length === 0 ? (
         <p>할일 목록이 없습니다.</p>
       ) : (
-        todos.map((todo) => (
+        data.map((todo) => (
           <TodoItem
             key={todo.id}
-            id={todo.id}
-            content={todo.content}
-            isCompleted={todo.isCompleted}
+            {...todo}
             onDelete={onDelete} // 삭제 핸들러 전달
+            onToggleChecked={onToggleChecked} // 체크박스 핸들러 전달
+            isChecked={checkedTodos.includes(todo.id)} // 체크 여부 전달
           />
         ))
       )}

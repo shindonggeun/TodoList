@@ -6,14 +6,13 @@ import qs from 'qs'
 
 // 할일 목록 가져오기 (NoOffSet 방식)
 export const getTodoList = async (lastTodoId?: number) => {
+    const params = lastTodoId ? { lastTodoId } : {};
+    
     return customAxios
-    .get(`/todos`, {
-        params: lastTodoId
-    })
-    .then(res => res.data)
-    .catch(err => console.log(err))
+      .get(`/todos`, { params })
+      .then(res => res.data)
+      .catch(err => console.log(err));
 };
-
 // 할일 생성하기
 export const createTodo = async (data: TodoRequest) => {
     return customAxios

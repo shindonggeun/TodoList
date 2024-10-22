@@ -6,22 +6,20 @@ import { TodoRequest } from "@src/types/TodoType";
 // 무한 스크롤을 위한 할 일 목록을 가져오는 query 훅
 export const useGetTodoListInfiniteQuery = () => {
     return useInfiniteQuery({
-        queryKey: ['todoList'],
-        queryFn: async ({ pageParam = undefined }) => {
-            const response = await getTodoList(pageParam); // lastTodoId를 pageParam으로 전달
-            return response.dataBody;
-        },
-        getNextPageParam: (lastPage) => {
-            // 마지막 페이지의 마지막 할일 ID를 반환 (hasNext가 true인 경우)
-            if (lastPage.hasNext) {
-                return lastPage.contents[lastPage.contents.length - 1].id;
-            }
-            return undefined; // 더 이상 데이터가 없으면 undefined
-        },
-        initialPageParam: undefined, // 첫 페이지 매개변수 설정 (필수)
+      queryKey: ['todoList'],
+      queryFn: async ({ pageParam = undefined }) => {
+        const response = await getTodoList(pageParam); // pageParam을 이용해 무한 스크롤 구현
+        return response.dataBody;
+      },
+      getNextPageParam: (lastPage) => {
+        if (lastPage.hasNext) {
+          return lastPage.contents[lastPage.contents.length - 1].id; // 마지막 Todo의 ID를 다음 페이지의 시작점으로 사용
+        }
+        return undefined; // 더 이상 페이지가 없으면 undefined 반환
+      },
+      initialPageParam: undefined,
     });
-};
-
+  };
 
 // 할일 생성하기
 export const useCreateTodoMutation = () => {

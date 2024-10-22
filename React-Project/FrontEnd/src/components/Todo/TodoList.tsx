@@ -1,10 +1,8 @@
-// components/Todo/TodoList.tsx
-
 import TodoItem from '@src/components/Todo/TodoItem';
 import { useTodoStore } from '@src/stores/TodoStore';
 
-export default function TodoList() {
-  const { todos } = useTodoStore(); // zustand store에서 할 일 목록 가져옴 (저장된 변수)
+export default function TodoList({ onDelete }) {
+  const { todos } = useTodoStore();
 
   return (
     <div>
@@ -13,13 +11,14 @@ export default function TodoList() {
       ) : (
         todos.map((todo) => (
           <TodoItem
-            key={todo.id} // 할 일 아이템에 고유 key값 (UUID) 저장
-            task={todo.task} // 할 일 내용
-            completed={todo.completed} // 완료 여부
-            id={todo.id} // 할 일 고유 ID
+            key={todo.id}
+            id={todo.id}
+            content={todo.content}
+            isCompleted={todo.isCompleted}
+            onDelete={onDelete} // 삭제 핸들러 전달
           />
         ))
       )}
     </div>
   );
-};
+}

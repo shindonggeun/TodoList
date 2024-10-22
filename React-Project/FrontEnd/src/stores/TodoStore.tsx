@@ -1,68 +1,44 @@
-// store/TodoStore.ts
-import { create, StateCreator } from 'zustand';
-import { persist, PersistOptions, createJSONStorage } from 'zustand/middleware';
+import { create } from 'zustand';
 import { Todo } from '@src/types/TodoType';
-import { v4 as uuidv4 } from 'uuid';
 
-// 상태 관리할 Todo 관련 타입 정의
 type TodoState = {
-  todos: Todo[]; // Todo 항목 목록
-  addTodo: (task: string) => void; // 할 일 추가
-  toggleTodo: (id: string) => void; // 할 일 완료 상태 토글
-  deleteTodo: (id: string) => void; // 할 일 삭제
-  updateTodo: (id: string, newTask: string) => void; // 할 일 내용 수정
-  removeCheckedTodos: () => void; // 완료된 할 일 리스트 전체 삭제
+  todos: Todo[];
+  setTodos: (updateFn: (prevTodos: Todo[]) => Todo[]) => void; // 할 일 목록 설정
+  toggleTodo: (id: number) => void; // 할 일 완료 상태 토글
+  getCheckedTodoIds: () => number[]; // 체크된 할 일의 ID 목록 반환
+  deleteTodo: (id: number) => void; // 할 일 삭제 로직
+  clearTodos: () => void; // 상태 초기화 로직 추가
 };
 
-// persist 미들웨어 옵션 타입
-type MyPersist = (
-  config: StateCreator<TodoState>,
-  options: PersistOptions<TodoState>
-) => StateCreator<TodoState>;
+export const useTodoStore = create<TodoState>((set, get) => ({
+  todos: [],
 
-// zustand 스토어 정의
-export const useTodoStore = create<TodoState>(
-  (persist as MyPersist)(
-    (set) => ({
-      todos: [], // 할 일 목록의 초기값은 빈 배열로 설정
+  // 백엔드에서 받아온 할 일을 Zustand에 저장 (중복 방지)
+  setTodos: (updateFn) =>
+    set((state) => ({
+      todos: updateFn(state.todos),
+    })),
 
-      // 할 일 추가 메서드
-      addTodo: (task: string) =>
-        set((state) => ({
-          todos: [...state.todos, { id: uuidv4(), task, completed: false }],
-        })),
+  // 할 일 완료 상태 토글
+  toggleTodo: (id: number) =>
+    set((state) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      ),
+    })),
 
-      // 할 일 완료 상태 토글 변경 메서드
-      toggleTodo: (id: string) =>
-        set((state) => ({
-          todos: state.todos.map((todo) =>
-            todo.id === id ? { ...todo, completed: !todo.completed } : todo
-          ),
-        })),
+  // 체크된 할 일 목록 반환
+  getCheckedTodoIds: () =>
+    get()
+      .todos.filter((todo) => todo.isCompleted)
+      .map((todo) => todo.id),
 
-      // 할 일 삭제 메서드
-      deleteTodo: (id: string) =>
-        set((state) => ({
-          todos: state.todos.filter((todo) => todo.id !== id),
-        })),
+  // 상태에서 할 일 삭제
+  deleteTodo: (id: number) =>
+    set((state) => ({
+      todos: state.todos.filter((todo) => todo.id !== id),
+    })),
 
-      // 할 일 내용 수정 메서드
-      updateTodo: (id: string, newTask: string) =>
-        set((state) => ({
-          todos: state.todos.map((todo) =>
-            todo.id === id ? { ...todo, task: newTask } : todo
-          ),
-        })),
-
-      // 완료된 할 일 리스트 삭제 메서드
-      removeCheckedTodos: () =>
-        set((state) => ({
-          todos: state.todos.filter((todo) => !todo.completed),
-        })),
-    }),
-    {
-      name: 'todo-storage', // 로컬 스토리지에 저장할 키 이름
-      storage: createJSONStorage(() => localStorage), // createJSONStorage로 변경
-    }
-  )
-);
+  // 상태를 초기화하는 함수
+  clearTodos: () => set(() => ({ todos: [] })),
+}));

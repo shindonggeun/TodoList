@@ -18,7 +18,8 @@ const getProgressColor = (completionRate: number) => {
   }
 }
 
-const BorderLinearProgress = styled(LinearProgress)<{ completionRate: number }>(({ theme, completionRate }) => ({
+// styled 컴포넌트 내부에서 completionRate 처리
+const BorderLinearProgress = styled(LinearProgress)(({ theme, ownerState }: { ownerState: { completionRate: number } }) => ({
   height: 20, // 프로그레스 바의 높이를 20px로 설정
   borderRadius: 5, // 둥글게 처리
   [`&.${linearProgressClasses.colorPrimary}`]: {
@@ -26,7 +27,7 @@ const BorderLinearProgress = styled(LinearProgress)<{ completionRate: number }>(
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5, // 진행 막대 둥글게 처리
-    backgroundColor: getProgressColor(completionRate), // 퍼센티지에 따라 색상 적용
+    backgroundColor: getProgressColor(ownerState.completionRate), // 퍼센티지에 따라 색상 적용
   },
 }));
 
@@ -40,7 +41,7 @@ export default function ProgressBar({ completedTodosCount, totalTodosCount }: Pr
         <BorderLinearProgress
           variant="determinate" // 프로그레스 바의 진행률을 제어
           value={completionRate} // 계산된 완료 비율을 설정
-          completionRate={completionRate} // 동적 색상을 위한 completionRate 전달
+          ownerState={{ completionRate }} // 동적 색상을 위한 completionRate 전달 (styled 내부에서 사용)
         />
       </Box>
 

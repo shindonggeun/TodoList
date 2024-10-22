@@ -22,7 +22,7 @@ public class TodoController {
     private final TodoService todoService;
 
     @Operation(
-            summary = " 할일 목록 가져오기",
+            summary = "할일 목록 가져오기",
             description = "할일 목록을 가져오는 기능입니다. 마지막 ID 커서 기반 noOffSet 방식이 적용되어 있습니다."
     )
     @GetMapping
@@ -43,7 +43,7 @@ public class TodoController {
     }
 
     @Operation(
-            summary = " 할일 수정하기",
+            summary = "할일 수정하기",
             description = "할일(내용)을 수정하는 기능입니다."
     )
     @PatchMapping("/{todoId}/content")

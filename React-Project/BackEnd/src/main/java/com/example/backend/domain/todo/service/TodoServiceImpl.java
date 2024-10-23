@@ -5,11 +5,11 @@ import com.example.backend.domain.todo.dto.TodoResponse;
 import com.example.backend.domain.todo.entity.Todo;
 import com.example.backend.domain.todo.repository.TodoRepository;
 import com.example.backend.global.common.dto.SliceResponse;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

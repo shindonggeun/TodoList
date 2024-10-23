@@ -1,3 +1,5 @@
+// src/containers/Todo/TodoContainers.tsx
+
 import TodoInput from '@src/components/Todo/TodoInput';
 import TodoList from '@src/components/Todo/TodoList';
 import ProgressBar from '@src/components/Todo/ProgressBar';
@@ -11,7 +13,7 @@ import InfiniteObserver from '@src/components/Todo/InfiniteObserver'; // 무한�
 import { useState } from 'react';
 
 export default function TodoContainer() {
-  const { data, fetchNextPage, hasNextPage, refetch, isFetching, isLoading } = useGetTodoListInfiniteQuery();
+  const { data, fetchNextPage, hasNextPage, isFetching, isLoading } = useGetTodoListInfiniteQuery();
   const { mutate: completeTodos } = useUpdateIsCompletedTodoMutation();
   const { mutate: removeTodo } = useDeleteTodoMutation();
   
@@ -33,7 +35,6 @@ export default function TodoContainer() {
       completeTodos(checkedTodos, {
         onSuccess: () => {
           setCheckedTodos([]); // 완료 후 체크박스 초기화
-          refetch(); // 목록을 새로 불러옴
         },
       });
     }
@@ -44,14 +45,13 @@ export default function TodoContainer() {
     removeTodo(todoId, {
       onSuccess: () => {
         setCheckedTodos((prevChecked) => prevChecked.filter((id) => id !== todoId)); // 삭제된 항목을 체크된 목록에서 제거
-        refetch(); // 목록을 새로 불러옴
       },
     });
   };
 
   // 무한스크롤 콜백 함수
   const observerCallback: IntersectionObserverCallback = ([entry]) => {
-    if (entry.isIntersecting && hasNextPage && !isFetching) {
+    if (entry.isIntersecting && hasNextPage && !isFetching && !isLoading) {
       fetchNextPage(); // 다음 페이지를 로드
     }
   };
@@ -61,7 +61,7 @@ export default function TodoContainer() {
       <h1 className="text-center text-2xl font-bold mb-4">TODOLIST</h1>
 
       {/* 할 일 추가 후 새로고침 없이 목록 갱신 */}
-      <TodoInput onTodoAdded={refetch} />
+      <TodoInput/>
 
       {/* 할 일 목록 */}
       <Box sx={{ height: '300px', overflowY: 'auto' }}>

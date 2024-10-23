@@ -1,4 +1,5 @@
-// InfiniteObserver.tsx
+// src/components/Todo/InfiniteObserver.tsx
+
 import { useEffect, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 

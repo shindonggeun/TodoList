@@ -7,7 +7,7 @@ import { TodoRequest } from "@src/types/TodoType";
 // 할 일 목록을 무한 스크롤로 가져오는 쿼리 훅
 export const useGetTodoListInfiniteQuery = () => {
     return useInfiniteQuery({
-        queryKey: ['todoList'],
+        queryKey: ['todoList'], // 캐싱을 위한 queryKey
         queryFn: async ({ pageParam = undefined }) => {
             const response = await getTodoList(pageParam);
             return response.dataBody;
@@ -23,7 +23,8 @@ export const useCreateTodoMutation = () => {
     return useMutation({
         mutationFn: (data: TodoRequest) => createTodo(data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['todoList'] }); // 생성 후 목록 갱신
+            // queryKey를 무효화하여 할 일 목록을 다시 요청 -> 생성 후 목록 갱신
+            queryClient.invalidateQueries({ queryKey: ['todoList'] });
         },
     });
 };
@@ -34,7 +35,8 @@ export const useUpdateTodoMutation = (todoId: number) => {
     return useMutation({
         mutationFn: (data: TodoRequest) => updateTodo(todoId, data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['todoList'] }); // 수정 후 목록 갱신
+            // queryKey를 무효화하여 할 일 목록을 다시 요청 -> 수정 후 목록 갱신
+            queryClient.invalidateQueries({ queryKey: ['todoList'] });
         },
     });
 };
@@ -45,7 +47,8 @@ export const useUpdateIsCompletedTodoMutation = () => {
     return useMutation({
         mutationFn: (todoIds: number[]) => updateIsCompletedTodo(todoIds),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['todoList'] }); // 완료 처리 후 목록을 갱신
+            // queryKey를 무효화하여 할 일 목록을 다시 요청 -> 선택된 할 일들을 완료 처리 된 후 목록을 갱신
+            queryClient.invalidateQueries({ queryKey: ['todoList'] });
         }
     })
 }
@@ -56,7 +59,8 @@ export const useDeleteTodoMutation = () => {
     return useMutation({
         mutationFn: (todoId: number) => deleteTodo(todoId),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['todoList'] }); // 삭제 후 목록 갱신
+            // queryKey를 무효화하여 할 일 목록을 다시 요청 -> 삭제 후 목록 갱신
+            queryClient.invalidateQueries({ queryKey: ['todoList'] });
         },
     });
 };

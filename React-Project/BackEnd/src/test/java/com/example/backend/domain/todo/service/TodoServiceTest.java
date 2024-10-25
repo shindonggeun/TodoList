@@ -3,6 +3,7 @@ package com.example.backend.domain.todo.service;
 import com.example.backend.domain.todo.dto.TodoRequest;
 import com.example.backend.domain.todo.dto.TodoResponse;
 import com.example.backend.domain.todo.entity.Todo;
+import com.example.backend.domain.todo.exception.TodoException;
 import com.example.backend.domain.todo.repository.TodoRepository;
 import com.example.backend.global.common.dto.SliceResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -124,13 +125,12 @@ public class TodoServiceTest {
         when(todoRepository.findById(todoId)).thenReturn(Optional.empty());
 
         // When, Then (실행 및 검증 단계)
-        // 존재하지 않는 할 일 조회 시 RuntimeException이 발생하는지 검증
-        // TODO: RuntimeException이 아닌 Custom Exception으로 처리
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        // 존재하지 않는 할 일 조회 시 TodoException이 발생하는지 검증
+        Exception exception = assertThrows(TodoException.class, () -> {
             todoService.updateContentTodo(todoId, new TodoRequest("할일 수정 테스트"));
         });
 
-        assertEquals("해당 할 일이 존재하지 않습니다.", exception.getMessage());
+        assertEquals("해당 할일을 찾을 수 없습니다.", exception.getMessage());
         // findById 메소드가 정확히 한 번 호출되었는지 검증
         verify(todoRepository, times(1)).findById(todoId);
     }
@@ -202,11 +202,11 @@ public class TodoServiceTest {
 
         // When, Then (실행 및 검증 단계)
         // 존재하지 않는 할일 삭제 시 Exception 발생 여부 검증
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        Exception exception = assertThrows(TodoException.class, () -> {
             todoService.deleteTodo(todoId);
         });
 
-        assertEquals("해당 할 일이 존재하지 않습니다.", exception.getMessage());
+        assertEquals("해당 할일을 찾을 수 없습니다.", exception.getMessage());
 
         // findById 메서드가 정확히 한 번 호출되었는지 검증
         verify(todoRepository, times(1)).findById(todoId);

@@ -3,6 +3,8 @@ package com.example.backend.domain.todo.service;
 import com.example.backend.domain.todo.dto.TodoRequest;
 import com.example.backend.domain.todo.dto.TodoResponse;
 import com.example.backend.domain.todo.entity.Todo;
+import com.example.backend.domain.todo.exception.TodoErrorCode;
+import com.example.backend.domain.todo.exception.TodoException;
 import com.example.backend.domain.todo.repository.TodoRepository;
 import com.example.backend.global.common.dto.SliceResponse;
 import lombok.RequiredArgsConstructor;
@@ -78,8 +80,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     private Todo findTodoById(Long todoId) {
-        // TODO: Custom Exception 처리
         return todoRepository.findById(todoId)
-                .orElseThrow(() -> new RuntimeException("해당 할 일이 존재하지 않습니다."));
+                .orElseThrow(() -> new TodoException(TodoErrorCode.NOT_FOUND_TODO));
     }
 }
